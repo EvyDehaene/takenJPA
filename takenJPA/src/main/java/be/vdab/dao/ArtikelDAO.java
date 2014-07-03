@@ -1,5 +1,7 @@
 package be.vdab.dao;
 
+import java.math.BigDecimal;
+
 import be.vdab.entities.Artikel;
 
 
@@ -16,5 +18,13 @@ public class ArtikelDAO extends AbstractDAO {
 		  if (artikel != null){
 			  getEntityManager().remove(artikel);
 		  }
+	  }
+	  public Iterable<Artikel> findByNaamContains(String woord) {
+		  return getEntityManager()
+		    .createNamedQuery("Artikel.findByNaamContains", Artikel.class)
+		    .setParameter("zoals", '%' + woord + '%').getResultList();
+		}
+	  public void prijsverhoging (BigDecimal factor) {
+		  getEntityManager().createNamedQuery("Artikel.prijsverhoging").setParameter("factor", factor).executeUpdate();
 	  }
 	}
